@@ -1,0 +1,250 @@
+/* Apply box-sizing to all elements and remove default margin */
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+/* Style for the body background and font */
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    font-family: 'Inter', 'Segoe UI', 'Roboto', Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+/* Calculator container styling */
+.calculator {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    padding: 32px 28px;
+    max-width: 380px;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-radius: 24px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Calculator hover effect */
+.calculator:hover {
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.2), 0 12px 32px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+/* Result display styling */
+#result {
+    width: 100%;
+    padding: 20px 18px;
+    font-size: clamp(20px, 5vw, 32px);
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    color: #2d3748;
+    font-weight: 600;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    text-align: right;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) inset;
+    transition: all 0.2s ease;
+}
+
+#result:focus {
+    outline: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) inset, 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Button grid layout */
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+/* General button styling */
+button {
+    padding: 20px;
+    font-size: clamp(16px, 4vw, 20px);
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 600;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+    min-height: 60px;
+}
+
+/* Button press effect */
+button:active {
+    transform: scale(0.95);
+}
+
+/* Button hover effect */
+button:hover {
+    transform: translateY(-2px);
+}
+
+/* Clear button styling */
+.clear {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.clear:hover {
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+/* Number and decimal button styling */
+.number, .decimal {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    color: #2d3748;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.number:hover, .decimal:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+/* Operator button styling */
+.operator {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.operator:hover {
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Equals button styling */
+.equals {
+    background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+    grid-row: span 3;
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(78, 205, 196, 0.3);
+}
+
+.equals:hover {
+    box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+}
+
+/* Add ripple effect */
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+
+button:active::before {
+    width: 100%;
+    height: 100%;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 480px) {
+    .calculator {
+        padding: 24px 20px;
+        max-width: 320px;
+        border-radius: 20px;
+    }
+    
+    .buttons {
+        gap: 12px;
+    }
+    
+    button {
+        padding: 16px;
+        border-radius: 12px;
+        min-height: 50px;
+    }
+    
+    #result {
+        padding: 16px 14px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+    }
+}
+
+@media (max-width: 360px) {
+    .calculator {
+        padding: 20px 16px;
+        max-width: 280px;
+    }
+    
+    .buttons {
+        gap: 10px;
+    }
+    
+    button {
+        padding: 14px;
+        min-height: 45px;
+    }
+    
+    #result {
+        padding: 14px 12px;
+        margin-bottom: 16px;
+    }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 600px) {
+    body {
+        padding: 10px;
+    }
+    
+    .calculator {
+        padding: 20px 24px;
+        max-width: 450px;
+    }
+    
+    #result {
+        padding: 16px 18px;
+        margin-bottom: 16px;
+    }
+    
+    button {
+        padding: 16px;
+        min-height: 45px;
+    }
+    
+    .buttons {
+        gap: 12px;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+    .calculator {
+        backdrop-filter: blur(25px);
+    }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    button:hover {
+        transform: none;
+    }
+    
+    .calculator:hover {
+        transform: none;
+    }
+}

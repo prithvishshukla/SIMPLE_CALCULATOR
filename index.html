@@ -1,0 +1,47 @@
+<!DOCTYPE html> <!-- Declares the document type as HTML5 -->
+<html lang="en"> <!-- Sets the language of the document to English -->
+<head>
+    <meta charset="UTF-8"> <!-- Sets character encoding -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Ensures compatibility with IE browsers -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive design for mobile devices -->
+    <title>Basic Calculator</title> <!-- Title of the page shown in browser tab -->
+    <link rel="stylesheet" href="style.css"> <!-- Links external CSS file for styling -->
+</head>
+<body>
+    <!-- Calculator container -->
+    <div class="calculator">
+        <!-- Display area for calculation result -->
+        <input type="text" id="result" readonly>
+        <!-- Calculator buttons -->
+        <div class="buttons">
+            <!-- Clear button to reset input -->
+            <button class="clear">C</button>
+            <!-- Operator buttons for division, multiplication, subtraction -->
+            <button class="operator">/</button>
+            <button class="operator">*</button>
+            <button class="operator">-</button>
+            <!-- Number buttons -->
+            <button class="number">7</button>
+            <button class="number">8</button>
+            <button class="number">9</button>
+            <!-- Operator button for addition -->
+            <button class="operator">+</button>
+            <button class="number">4</button>
+            <button class="number">5</button>
+            <button class="number">6</button>
+            <!-- Equals button to calculate result -->
+            <button class="equals">=</button>
+            <button class="number">1</button>
+            <button class="number">2</button>
+            <button class="number">3</button>
+            <!-- Percentage button -->
+            <button class="operator">%</button>
+            <button class="number">0</button>
+            <!-- Decimal button for floating point numbers -->
+            <button class="decimal">.</button>
+        </div>
+    </div>
+    <!-- Link to external JavaScript file for calculator functionality -->
+    <script src="index.js"></script>
+</body>
+</html>
