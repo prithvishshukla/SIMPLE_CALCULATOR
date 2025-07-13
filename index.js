@@ -1,128 +1,77 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const resultDisplay = document.getElementById('result');
-    const buttons = document.querySelector('.buttons');
+// Select all button elements on the page
+const buttonsEl = document.querySelectorAll("button");
 
-    let currentInput = '0';
-    let operator = '';
-    let previousInput = '';
-    let shouldResetDisplay = false;
+// Select the input field where the result is displayed
+const inputFieldEl = document.getElementById("result");
 
-    updateDisplay();
-
-    buttons.addEventListener('click', function (e) {
-        const button = e.target;
-        if (!button.matches('button')) return; // Ignore clicks on the container
-        const value = button.textContent;
-
-        if (button.classList.contains('number')) {
-            handleNumber(value);
-        } else if (button.classList.contains('operator')) {
-            handleOperator(value);
-        } else if (button.classList.contains('decimal')) {
-            handleDecimal();
-        } else if (button.classList.contains('clear')) {
-            clearCalculator();
-        } else if (button.classList.contains('equals')) {
+// Loop through each button and add a click event listener
+for (let i = 0; i < buttonsEl.length; i++) {
+    buttonsEl[i].addEventListener("click", () => {
+        // Get the text content of the clicked button
+        const buttonValue = buttonsEl[i].textContent;
+        // If 'C' is clicked, clear the input field
+        if (buttonValue === "C") {
+            clearResult();
+        // If '=' is clicked, calculate and display the result
+        } else if (buttonValue === "=") {
             calculateResult();
+        // If '%' is clicked, handle percentage calculation
+        } else if (buttonValue === "%") {
+            handlePercentage();
+        // For other buttons (numbers/operators), append their value to the input field
+        } else {
+            appendValue(buttonValue);
         }
     });
+}
 
-    function handleNumber(num) {
-        if (shouldResetDisplay || currentInput === '0') {
-            currentInput = '';
-            shouldResetDisplay = false;
-        }
-        // Limit input length to prevent overflow
-        if (currentInput.length > 15) return;
-        
-        currentInput += num;
-        updateDisplay();
-    }
+// Function to clear the input field
+function clearResult() {
+    inputFieldEl.value = "";
+}
 
-    function handleOperator(op) {
-        if (currentInput === '' && op === '-') {
-            currentInput = '-';
-            updateDisplay();
-            return;
-        }
-        if (currentInput === '' || currentInput === '-') return;
+// Function to evaluate the expression in the input field and display the result
+function calculateResult() {
+    inputFieldEl.value = eval(inputFieldEl.value);
+}
 
-        if (previousInput !== '' && !shouldResetDisplay) {
-            calculateResult();
-        }
+// Function to append the clicked button's value to the input field
+function appendValue(buttonValue) {
+    inputFieldEl.value += buttonValue;
+    //   inputFieldEl.value = inputFieldEl.value + buttonValue;
+}
 
-        operator = op;
-        previousInput = currentInput;
-        shouldResetDisplay = true;
-    }
-
-    function handleDecimal() {
-        if (shouldResetDisplay) {
-            currentInput = '0.';
-            shouldResetDisplay = false;
-        } else if (!currentInput.includes('.')) {
-            currentInput += '.';
-        }
-        updateDisplay();
-    }
-
-    function clearCalculator() {
-        currentInput = '0';
-        previousInput = '';
-        operator = '';
-        shouldResetDisplay = false;
-        updateDisplay();
-    }
-
-    function calculateResult() {
-        if (previousInput === '' || operator === '' || shouldResetDisplay) return;
-
-        const prev = parseFloat(previousInput);
-        const current = parseFloat(currentInput);
-
-        if (isNaN(prev) || isNaN(current)) return;
-
-        let result;
-        switch (operator) {
-            case '+':
-                result = prev + current;
-                break;
-            case '-':
-                result = prev - current;
-                break;
-            case '*':
-                result = prev * current;
-                break;
-            case '/':
-                if (current === 0) {
-                    displayError();
-                    return;
+// Function to handle percentage calculations
+function handlePercentage() {
+    const currentValue = inputFieldEl.value;
+    
+    // If input field is empty, do nothing
+    if (!currentValue) return;
+    
+    try {
+        // Check if expression contains operators
+        if (/[+\-*/]/.test(currentValue)) {
+            // Find the last number in the expression
+            const parts = currentValue.match(/([+\-*/])([^+\-*/]*)$/);
+            if (parts) {
+                const operator = parts[1];
+                const lastNumber = parts[2];
+                const expression = currentValue.substring(0, currentValue.length - lastNumber.length - 1);
+                const baseValue = eval(expression);
+                const percentage = (baseValue * parseFloat(lastNumber)) / 100;
+                
+                // Replace the expression with the result of applying the percentage
+                if (operator === '+' || operator === '-') {
+                    inputFieldEl.value = `${baseValue}${operator}${percentage}`;
+                } else {
+                    inputFieldEl.value = `${expression}${operator}${percentage}`;
                 }
-                result = prev / current;
-                break;
-            case '%':
-                result = prev % current;
-                break;
-            default:
-                return;
+            }
+        } else {
+            // Convert single number to percentage (divide by 100)
+            inputFieldEl.value = parseFloat(currentValue) / 100;
         }
-        // Format result to a reasonable precision
-        currentInput = parseFloat(result.toPrecision(15)).toString();
-        operator = '';
-        previousInput = '';
-        shouldResetDisplay = true;
-        updateDisplay();
+    } catch (error) {
+        inputFieldEl.value = "Error";
     }
-
-    function displayError() {
-        currentInput = 'Error';
-        updateDisplay();
-        previousInput = '';
-        operator = '';
-        shouldResetDisplay = true;
-    }
-
-    function updateDisplay() {
-        resultDisplay.value = currentInput;
-    }
-});
+}
